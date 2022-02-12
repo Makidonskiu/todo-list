@@ -27,7 +27,15 @@ import React, {useState} from 'react';
       }
     }
     
-   
+    useEffect( () => {
+      let raw = localStorage.getItem('save')
+      raw = JSON.parse(raw)
+      setTodo(raw)
+    }, [])
+    
+    useEffect( () => {
+      localStorage.setItem('save', JSON.stringify(todo))
+    }, [todo])
     
       return(
         <div className="AddTodo">
