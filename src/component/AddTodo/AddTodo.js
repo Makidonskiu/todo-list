@@ -1,6 +1,7 @@
 import './AddTodo.css'
 import { Input, Button } from 'antd';
 import React, {useState, useEffect} from 'react';
+import { keyboard } from '@testing-library/user-event/dist/keyboard';
   
   const AddTodo = ( { todo, setTodo } ) => {
 
@@ -26,12 +27,16 @@ import React, {useState, useEffect} from 'react';
         setValue('')
       }
     }
+
+    const heandleEnter = (e) => {
+      if(e.key === 'Enter') saveTodo()
+    }
     
     useEffect( () => {
       let raw = localStorage.getItem('save')
       raw = JSON.parse(raw)
       setTodo(raw)
-    }, [])
+    }, [setTodo])
     
     useEffect( () => {
       localStorage.setItem('save', JSON.stringify(todo))
@@ -40,7 +45,12 @@ import React, {useState, useEffect} from 'react';
       return(
         <div className="AddTodo">
             <Input.Group compact>
-                <Input style={style.input} placeholder = {'Add a todo'} value={value} onChange={(e) => setValue(e.target.value)} />
+                <Input 
+                style={style.input} 
+                placeholder = {'Add a todo'} 
+                value={value} 
+                onChange={(e) => setValue(e.target.value)}
+                onKeyPress = {heandleEnter} />
                 <Button onClick={ saveTodo } type="primary" className={'btn btn-warning'}>Add Todo</Button>
             </Input.Group>
         
